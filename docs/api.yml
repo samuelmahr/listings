@@ -1,0 +1,135 @@
+  openapi: 3.0.0
+  info:
+    version: "0.0.1"
+    title: Appointment Scheduling
+    description: API documentation for Appointment Scheduling
+  servers:
+    - url: http://localhost/8000/v1
+  paths:
+    /listings:
+      get:
+        description: get listings filtered by params
+        operationId: GetScheduledAppointments
+        tags:
+          - listings
+        parameters:
+          - name: min_price
+            in: query
+            required: false
+            description: filter by minimum price
+            schema:
+              type: integer
+            example: 400000
+          - name: max_price
+            in: query
+            required: false
+            description: filter by maximum price
+            schema:
+              type: integer
+            example: 80000
+          - name: min_bed
+            in: query
+            required: false
+            description: filter by minimum bedrooms
+            schema:
+              type: integer
+            example: 4
+          - name: max_bed
+            in: query
+            required: false
+            description: filter by maximum bedrooms
+            schema:
+              type: integer
+            example: 6
+          - name: min_bath
+            in: query
+            required: false
+            description: filter by minimum bedrooms
+            schema:
+              type: integer
+            example: 2
+          - name: max_bath
+            in: query
+            required: false
+            description: filter by maximum bedrooms
+            schema:
+              type: integer
+            example: 4
+        responses:
+          200:
+            description: A list of scheduled appointments. this will have a `user_id` in response
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ListingResponse'
+  components:
+    schemas:
+      ListingResponse:
+        type: object
+        properties:
+          type:
+            description: type for response
+            type: string
+            example: FeatureCollection
+          features:
+            description: listings
+            type: array
+            items:
+              $ref: '#/components/schemas/Listing'
+      Geometry:
+        type: object
+        properties:
+          type:
+            description: type for geometry
+            type: string
+            example: Point
+          coordinates:
+            description: location based cooridnates
+            type: array
+            items:
+              type: number
+              format: float64
+            example: [33.5,-112.0]
+      Properties:
+        type: object
+        properties:
+          id:
+            description: unique listing ID
+            type: integer
+            format: int64
+            example: 1
+          street:
+            description: street name for listing
+            type: string
+            example: 1434 Peace Dr
+          status:
+            description: "status of listing (pending | active | sold)"
+            type: string
+            example: pending
+          price:
+            description: price of listing
+            type: integer
+            example: 418217
+          bedrooms:
+            description: number of bedrooms
+            type: integer
+            example: 4
+          bathrooms:
+            description: number of bathrooms
+            type: integer
+            example: 3
+          sq_ft:
+            description: square footage of listing
+            type: integer
+            example: 2706
+      Listing:
+        type: object
+        properties:
+          type:
+            description: type for response
+            type: string
+            example: features
+          geometry:
+            $ref: '#/components/schemas/Geometry'
+          properties:
+            $ref: '#/components/schemas/Properties'
