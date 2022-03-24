@@ -12,6 +12,6 @@ type MockListings struct {
 	GetListingsErr      error
 }
 
-func (m *MockListings) GetListings(ctx context.Context, queryParams url.Values) ([]models.Listing, error) {
-	return m.GetListingsResponse, m.GetListingsErr
+func (m *MockListings) GetListings(ctx context.Context, queryParams url.Values) ([]models.Listing, models.Pagination, error) {
+	return m.GetListingsResponse, models.Pagination{}, m.GetListingsErr
 }

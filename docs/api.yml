@@ -54,7 +54,21 @@
             description: filter by maximum bedrooms
             schema:
               type: integer
+            example: 2
+          - name: page
+            in: query
+            required: false
+            description: pagination, select what page to get
+            schema:
+              type: integer
             example: 4
+          - name: page_size
+            in: query
+            required: false
+            description: number of listings returned per page, default is 10
+            schema:
+              type: integer
+            example: 10
         responses:
           200:
             description: A list of scheduled appointments. this will have a `user_id` in response

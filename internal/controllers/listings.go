@@ -28,14 +28,15 @@ func (a *V1ListingsController) GetListings(w http.ResponseWriter, r *http.Reques
 	ctx := r.Context()
 	queryParams := r.URL.Query()
 
-	listings, err := a.repo.GetListings(ctx, queryParams)
+	listings, pagination, err := a.repo.GetListings(ctx, queryParams)
 	if err != nil {
 		respondError(ctx, w, 500, "error retrieving listings", err)
 		return
 	}
 
 	response := models.ListingResponse{
-		Type: "FeatureCollection",
+		Type:       "FeatureCollection",
+		Pagination: pagination,
 	}
 
 	features := make([]models.Feature, len(listings))
